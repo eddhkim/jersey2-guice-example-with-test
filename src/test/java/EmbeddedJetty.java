@@ -1,3 +1,5 @@
+import static java.util.EnumSet.allOf;
+
 import java.net.URI;
 import java.util.EnumSet;
 
@@ -9,6 +11,8 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import com.google.inject.servlet.GuiceFilter;
+
+import example.jersey.Main;
 
 public class EmbeddedJetty {
 
@@ -25,16 +29,22 @@ public class EmbeddedJetty {
 
         ServletHolder holder = bb.addServlet(ServletContainer.class, "/*");
         holder.setInitParameter("javax.ws.rs.Application", "example.jersey.MyApplication");
-
+        bb.addEventListener(new Main());
         bb.addServlet(holder, "/*");
         bb.setContextPath("/");
         bb.setWar("src/main/webapp");
-
         server.setHandler(bb);
         
         System.out.println(">>> STARTING EMBEDDED JETTY SERVER");
         server.start();
         
+    }
+    
+    public static void main(String[] args) throws Exception {
+	    EmbeddedJetty server = new EmbeddedJetty();
+	    server.start();
+	    System.in.read();
+	    server.stop();
     }
     
     public void stop() throws Exception{

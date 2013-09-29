@@ -2,6 +2,7 @@ package example.jersey;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 
@@ -42,6 +43,8 @@ public class Main extends GuiceServletContextListener {
             // Configure your IOC
             @Override
             protected void configureServlets() {
+            	
+            	
                 bind(Service.class);
             }
         });
